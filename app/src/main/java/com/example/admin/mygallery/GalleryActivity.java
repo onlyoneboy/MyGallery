@@ -34,7 +34,7 @@ public class GalleryActivity extends AppCompatActivity {
 
         public PhotoHolder(View itemView) {
             super(itemView);
-            itemView = itemView.findViewById(R.id.photo_gallery_image_view);
+            itemImageView = itemView.findViewById(R.id.photo_gallery_image_view);
         }
     }
 
