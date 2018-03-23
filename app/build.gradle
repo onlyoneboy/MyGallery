@@ -28,4 +28,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation files('okhttp-3.10.0.jar')
     implementation files('picasso-2.0.0.jar')
+    implementation files('okio-1.14.0.jar')
 }

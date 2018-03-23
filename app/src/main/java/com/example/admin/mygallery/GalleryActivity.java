@@ -1,5 +1,6 @@
 package com.example.admin.mygallery;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,6 +28,14 @@ public class GalleryActivity extends AppCompatActivity {
 
         photoRecyclerView = findViewById(R.id.photo_gallery_recycler_view);
         photoRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+
+        new FetchItemTask().execute();
+
+        setupAdapter();
+    }
+
+    private void setupAdapter() {
+        photoRecyclerView.setAdapter(new PhotoAdapter(mItems));
     }
 
     private class PhotoHolder extends RecyclerView.ViewHolder {
@@ -48,7 +57,7 @@ public class GalleryActivity extends AppCompatActivity {
         @Override
         public PhotoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(GalleryActivity.this);
-            View v = inflater.inflate(R.layout.gallery_item, parent);
+            View v = inflater.inflate(R.layout.gallery_item, parent, false);
             return new PhotoHolder(v);
         }
 
@@ -63,4 +72,20 @@ public class GalleryActivity extends AppCompatActivity {
             return mGalleryItems.size();
         }
     }
+
+    private class FetchItemTask extends AsyncTask<Void, Void, List<GalleryItem>> {
+
+        @Override
+        protected List<GalleryItem> doInBackground(Void... params) {
+            return new FlickFetcher().fetchItems();
+        }
+
+        @Override
+        protected void onPostExecute(List<GalleryItem> items) {
+            mItems = items;
+            setupAdapter();
+        }
+    }
+
+
 }
